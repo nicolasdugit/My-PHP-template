@@ -45,7 +45,7 @@ class DataManager extends Manager
 		$result = $req->execute(array(
 			':id' => $id,
 		));
-		return $req;
+		return $result;
 	}
 	/**
 	 * [updateData description]

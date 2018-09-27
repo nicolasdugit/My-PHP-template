@@ -35,7 +35,7 @@ class MailManager extends Manager
 		$result = $req->execute(array(
 			':id' => $id,
 		));
-		return $req;
+		return $result;
 	}
 	
 	public function deleteMail($id)

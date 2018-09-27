@@ -15,17 +15,14 @@
 		<a class="nav-item nav-link active" href="index.php">Home</a>
 		<a class="nav-item nav-link" href="index.php?page=data">Data</a>
 		<a class="nav-item nav-link" href="index.php?page=contact">Contact</a>
+		<a class="nav-item nav-link" href="index.php?page=forum">Forum</a>
+		<a class="nav-item nav-link" href="index.php?page=blog">Blog</a>
 	</nav>
 <hr>
-<div style="height: 400px;" id="map">
-	<!-- Ici s'affichera la carte -->
-</div>
+	
 </div>
 		
-<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
-	crossorigin=""></script>
-<script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js" ></script>
-<script type="text/javascript" src="public/js/map.js"></script>
+
 <?php $content = ob_get_clean(); ?>
 
 <?php require('view/templates/template.php'); ?>

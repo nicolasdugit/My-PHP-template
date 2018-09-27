@@ -41,6 +41,19 @@ try {
 				require 'view/pages/contact.php';
 			}
 		}
+		elseif ($_GET['page'] == 'forum')
+		{
+			require 'view/pages/forum.php';
+		}
+		elseif ($_GET['page'] == 'blog')
+		{
+			require 'view/pages/blog.php';
+		}
+
+		else 
+		{
+			require 'view/homePage.php';
+		}
 	}
 	else
 	{
