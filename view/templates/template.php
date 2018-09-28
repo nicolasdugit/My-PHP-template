@@ -44,7 +44,9 @@
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
-        
+            <?php include 'view/includes/navbar.php'; ?>
+            <?php include 'view/includes/header.php'; ?>
+
             <?= $content ?>
     <?php include 'view/includes/footer.php'; ?>
     <script src="public/js/vendor/modernizr-3.6.0.min.js"></script>

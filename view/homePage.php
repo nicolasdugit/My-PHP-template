@@ -4,12 +4,16 @@
 <?php $url = 'My awesome URL' ?>
 
 <?php ob_start(); ?>
-<div class="jumbotron jumbotron-fluid ">
-  <div class="container ">
-	<h1 class="display-4">My PHP TEMPLATE</h1>
-	<p>My template Bootstrap</p>
-  </div>
-</div>
+
+<?php if (isset($_SESSION['message'])): ?>
+	<div id="alert_msg" class="alert alert-<?= $_SESSION['msg_type'] ?>">
+	<?php 
+		echo $_SESSION['message'];
+		unset($_SESSION['message']);
+	?>
+	</div>
+<?php endif ?>
+
 <div class="container">
 	<nav class="nav nav-pills nav-fill shadow p-3 mb-5 bg-white rounded">
 		<a class="nav-item nav-link active" href="index.php">Home</a>
@@ -19,9 +23,11 @@
 		<a class="nav-item nav-link" href="index.php?page=blog">Blog</a>
 	</nav>
 <hr>
-	
-</div>
+
+
+
 		
+</div>
 
 <?php $content = ob_get_clean(); ?>
 

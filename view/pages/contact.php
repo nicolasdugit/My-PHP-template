@@ -4,27 +4,23 @@
 <?php $url = 'My awesome URL' ?>
 
 <?php ob_start(); ?>
-<div class="jumbotron jumbotron-fluid ">
-  <div class="container ">
-	<h1 class="display-4">My PHP TEMPLATE</h1>
-	<p>My template Bootstrap</p>
-  </div>
-</div>
+
+<?php if (isset($_SESSION['message'])): ?>
+	<div id="alert_msg" class="alert alert-<?= $_SESSION['msg_type'] ?>">
+	<?php 
+		echo $_SESSION['message'];
+		unset($_SESSION['message']);
+	?>
+	</div>
+<?php endif ?>
+
 <div class="container">
-	<nav aria-label="breadcrumb">
+	<div role="navigation" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="index.php">Home</a></li>
 			<li class="breadcrumb-item active" aria-current="page">Contact</li>
 		</ol>
-	</nav>
-		<?php if (isset($_SESSION['message'])): ?>
-		<div id="alert_msg" class="alert alert-<?= $_SESSION['msg_type'] ?>">
-			<?php 
-				echo $_SESSION['message'];
-				unset($_SESSION['message']);
-			?>
-		</div>
-	<?php endif ?>
+	</div>
 	<form action="index.php?page=contact" method="POST">
 		<div class="form-row ">
 			<div class="form-group col-md-6">

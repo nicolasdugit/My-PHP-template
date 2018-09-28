@@ -1,6 +1,7 @@
 <?php 
 require_once 'model/DataManager.php';
 require_once 'model/MailManager.php';
+require_once 'model/UserManager.php';
 
 
 function selectAllData()
@@ -81,4 +82,58 @@ function insertMail($name, $email, $subject, $content)
 		$_SESSION['msg_type'] = 'success';
 		header('location: index.php?page=contact');
 	}
+}
+
+function insertUser($username, $email, $password)
+{
+	$userManager = new \MonNameSpace\Model\UserManager();
+	$pass_hash = password_hash($password, PASSWORD_DEFAULT);
+
+	$result = $userManager->insertUser($username, $email, $pass_hash, 2);
+
+	if ($result == false) 
+	{
+		throw new Exception('Impossible d\'ajouter nouvel utilisateur !');
+	}
+	else
+	{
+		$_SESSION['message'] = 'User has been saved!';
+		$_SESSION['msg_type'] = 'success';
+		header('location: '.$_POST['pageName']);
+	}
+}
+
+function selectUser($username, $password)
+{
+	$userManager = new \MonNameSpace\Model\UserManager();
+
+	$result = $userManager->selectUser($username);
+
+	$isPassCorrect = password_verify($password, $result['password']);
+
+	if ($result == false)
+	{
+		throw new Exception('Mauvais identifiant  ffou mot de passe');
+	}
+	else
+    {
+		if ($isPassCorrect) {
+				$_SESSION['message'] = 'login success!';
+				$_SESSION['msg_type'] = 'success';
+				header('Location: index.php');
+		}
+		else {
+			$_SESSION['message'] = 'login danger!';
+				$_SESSION['msg_type'] = 'danger';
+				
+				header('Location: index.php');
+		}
+	}
+}
+
+function logout()
+{
+    $_SESSION = array();
+    session_destroy();
+    header('Location: index.php');
 }

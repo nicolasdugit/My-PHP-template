@@ -49,7 +49,31 @@ try {
 		{
 			require 'view/pages/blog.php';
 		}
-
+		else 
+		{
+			require 'view/homePage.php';
+		}
+	}
+	elseif (isset($_GET['action'])) 
+	{
+		if ($_GET['action'] == 'signup')
+		{
+			if (isset($_POST['signup'])) 
+			{
+				insertUser($_POST['username'],$_POST['email'],$_POST['password']);
+			}
+		}
+		elseif ($_GET['action'] == 'login')
+		{
+			if (isset($_POST['login'])) 
+			{
+				selectUser($_POST['username'], $_POST['password']);
+			}
+		}
+		elseif ($_GET['action'] == 'logout')
+		{
+			logout();
+		}
 		else 
 		{
 			require 'view/homePage.php';

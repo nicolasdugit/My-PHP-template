@@ -1,6 +1,6 @@
 $(document).ready(function(){
     //message alert 
-    $("#alert_msg").fadeOut(3000);
+    $("#alert_msg").fadeOut(30000);
    //modal update data
     $('#modalEditName').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -13,4 +13,15 @@ $(document).ready(function(){
         modal.find('.modal-body #input_name').val(name)
         modal.find('.modal-body #input_location').val(location)
     })
+
+    $('#modalInscription').on('show.bs.modal', function (event) {
+        var url = window.location + '';
+        url = url.split('/');
+        url = url[url.length-1]
+        var modal = $(this)
+        modal.find('.modal-body #modalFormPageName').val(url)
+    
+    })
+
+
 });

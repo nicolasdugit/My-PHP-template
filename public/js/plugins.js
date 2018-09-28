@@ -22,3 +22,13 @@
 }());
 
 // Place any jQuery/helper plugins in here.
+$(document).ready(function () {
+  var url = window.location + '';
+  url = url.split('/');
+  url = url[url.length-1]
+  $('ul.navbar-nav a[href="'+ url +'"]').parent().addClass('active');
+  $('ul.navbar-nav a').filter(function() {
+    return this.href == url;
+  }).parent().addClass('active');
+});
+
