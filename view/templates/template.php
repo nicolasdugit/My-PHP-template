@@ -45,6 +45,7 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
             <?php include 'view/includes/navbar.php'; ?>
+            <?php include 'view/includes/alert.php'; ?>
             <?php include 'view/includes/header.php'; ?>
 
             <?= $content ?>
@@ -56,8 +57,9 @@
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
-    
+
     <script type="text/javascript" src="public/js/plugins.js"></script>
+    <script type="text/javascript" src="public/js/form.js"></script>
     <script type="text/javascript" src="public/js/main.js" ></script>
     
     	<!-- Google analytics -->

@@ -18,7 +18,7 @@ var Map = {
 		.bindPopup(popup)
 		.openPopup();
 
-		map.scrollWheelZoom.disable();
+		map.scrollWheelZoom.enable();
 	}
 }
 

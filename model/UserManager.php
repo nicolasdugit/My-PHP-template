@@ -15,23 +15,25 @@ class UserManager extends Manager
 		return $req;
 	}
 	
-	public function insertUser($username, $email, $password, $level)
+	public function insertUser($username, $email, $password, $level, $confirmation_token)
 	{
 		$db = $this->dbConnect();
-		$req = $db->prepare('INSERT INTO user (username, email, password, level) VALUES (:username, :email, :password, :level)');
-		$result = $req->execute(array(
+		$req = $db->prepare('INSERT INTO user (username, email, password, level, confirmation_token) VALUES (:username, :email, :password, :level, :confirmation_token)');
+		$req->execute(array(
 			':username' => $username,
 			':email' => $email,
 			':password' => $password,
 			':level' => $level,
+			':confirmation_token' => $confirmation_token
 		));
-		return $result;
+		$user_id = $db->lastInsertId();
+		return $user_id;
 	}
 	
 	public function selectUser($username)
 	{
 		$db = $this->dbConnect();
-		$req = $db->prepare('SELECT username, email, password, level FROM user WHERE username = :username');
+		$req = $db->prepare('SELECT * FROM user WHERE username = :username');
 		$req->execute(array(
 			':username' => $username,
 		));

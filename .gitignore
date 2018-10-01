@@ -1,2 +1,5 @@
 .idea/
 model/db_config.php
+composer.json
+composer.lock
+vendor/

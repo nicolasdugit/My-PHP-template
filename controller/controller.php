@@ -2,6 +2,8 @@
 require_once 'model/DataManager.php';
 require_once 'model/MailManager.php';
 require_once 'model/UserManager.php';
+require_once 'model/function.php';
+require_once 'vendor/autoload.php';
 
 
 function selectAllData()
@@ -20,7 +22,7 @@ function insertData($name, $location)
 
 	if ($result == false) 
 	{
-		throw new Exception('Impossible d\'inserer les data !');
+		throw new Exception('Something went wrong. We can\'t insert data!');
 	}
 	else
 	{
@@ -38,7 +40,7 @@ function updateData($id, $name, $location)
 
 	if ($result == false) 
 	{
-		throw new Exception('Impossible d\'updater les data !');
+		throw new Exception('Something went wrong. We can\'t update data!');
 	}
 	else 
 	{
@@ -56,7 +58,7 @@ function deleteData($id)
 	
 	if ($result == false) 
 	{
-		throw new Exception('Impossible de supprimer les data !');
+		throw new Exception('Something went wrong. We can\'t delete data!');
 	}
 	else
 	{
@@ -74,7 +76,7 @@ function insertMail($name, $email, $subject, $content)
 
 	if ($result == false) 
 	{
-		throw new Exception('Impossible d\'envoyer le mail !');
+		throw new Exception('Something went wrong. We can\'t send email!!');
 	}
 	else
 	{
@@ -87,19 +89,48 @@ function insertMail($name, $email, $subject, $content)
 function insertUser($username, $email, $password)
 {
 	$userManager = new \MonNameSpace\Model\UserManager();
-	$pass_hash = password_hash($password, PASSWORD_DEFAULT);
 
-	$result = $userManager->insertUser($username, $email, $pass_hash, 2);
+	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
 
-	if ($result == false) 
+	$token = str_random(60);
+
+	$testUser = $userManager->selectUser($username);
+	
+
+	if ($testUser)
 	{
-		throw new Exception('Impossible d\'ajouter nouvel utilisateur !');
+		throw new Exception('Something went wrong. This username exist already!');
 	}
-	else
-	{
-		$_SESSION['message'] = 'User has been saved!';
-		$_SESSION['msg_type'] = 'success';
-		header('location: '.$_POST['pageName']);
+	else {
+		$user_id = $userManager->insertUser($username, $email, $pass_hash, 2, $token);
+
+		if ($user_id == false) 
+		{
+			throw new Exception('Something went wrong. We can\'t add new user!');
+		}
+		else
+		{
+			$link = "http://127.0.0.1/site/Lien%20vers%20Bibliotheque/My-template/index.php?action=confirm&id=$user_id&token=$token";
+			// Create the Transport
+			$transport = (new Swift_SmtpTransport('localhost', 1025))
+			  ->setUsername('')
+			  ->setPassword('')
+			;
+			// Create the Mailer using your created Transport
+			$mailer = new Swift_Mailer($transport);
+			// Create a message
+			$message = (new Swift_Message('Wonderful Subject'))
+			  ->setFrom(['john@doe.com' => 'John Doe'])
+			  ->setTo([$email => 'A name'])
+			  ->setBody("Here is the message itself: <br> <a href=$link> $link </a>")
+			  ;
+			// Send the message
+			$result = $mailer->send($message);
+
+			$_SESSION['message'] = 'User has been saved!' . $user_id; 
+			$_SESSION['msg_type'] = 'success';
+			header('location: '.$_POST['pageName']);
+		}
 	}
 }
 
@@ -113,20 +144,22 @@ function selectUser($username, $password)
 
 	if ($result == false)
 	{
-		throw new Exception('Mauvais identifiant  ffou mot de passe');
+		throw new Exception('Something went wrong. We can\'t log! Wrong username or password');
 	}
 	else
     {
-		if ($isPassCorrect) {
-				$_SESSION['message'] = 'login success!';
-				$_SESSION['msg_type'] = 'success';
-				header('Location: index.php');
+		if ($isPassCorrect) 
+		{
+			$_SESSION['message'] = 'login success!';
+			$_SESSION['msg_type'] = 'success';
+			$_SESSION['username'] = $result['username'];
+			header('location: '.$_POST['pageName']);
 		}
-		else {
+		else 
+		{
 			$_SESSION['message'] = 'login danger!';
-				$_SESSION['msg_type'] = 'danger';
-				
-				header('Location: index.php');
+			$_SESSION['msg_type'] = 'danger';
+			header('location: '.$_POST['pageName']);
 		}
 	}
 }

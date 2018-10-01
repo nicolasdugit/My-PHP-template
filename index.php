@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-$id = 0;
-$name = '';
-$location = '';
-
 require 'controller/controller.php';
 
 try {
@@ -58,21 +54,52 @@ try {
 	{
 		if ($_GET['action'] == 'signup')
 		{
-			if (isset($_POST['signup'])) 
+			$error_register = array();
+
+			if (empty($_POST['username'])|| !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['username'])) 
+			{
+				$error_register['username'] = "Pseudo non valide";
+				throw new Exception($error_register['username']);
+				
+			}
+			if (empty($_POST['email'])|| !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
+			{
+				$error_register['email'] = "Email non valide";
+				throw new Exception($error_register['email']);
+				
+			}
+			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm']) 
+			{
+				$error_register['password'] = "Password non valide";
+				throw new Exception($error_register['password']);
+				
+			}
+			if (empty($error_register)) 
 			{
 				insertUser($_POST['username'],$_POST['email'],$_POST['password']);
 			}
 		}
 		elseif ($_GET['action'] == 'login')
 		{
-			if (isset($_POST['login'])) 
+			if (isset($_POST['username']) && isset($_POST['password'])) 
 			{
 				selectUser($_POST['username'], $_POST['password']);
+			}
+			else 
+			{
+				throw new Exception("Something went wrong");
 			}
 		}
 		elseif ($_GET['action'] == 'logout')
 		{
 			logout();
+		}
+		elseif ($_GET['action'] == 'confirm') 
+		{
+			if (isset($_GET['id']) && isset($_GET['token']))
+			{
+				
+			}
 		}
 		else 
 		{

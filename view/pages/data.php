@@ -4,14 +4,7 @@
 <?php $url = 'My awesome URL' ?>
 
 <?php ob_start(); ?>
-<?php if (isset($_SESSION['message'])): ?>
-	<div id="alert_msg" class="alert alert-<?= $_SESSION['msg_type'] ?>">
-	<?php 
-		echo $_SESSION['message'];
-		unset($_SESSION['message']);
-	?>
-	</div>
-<?php endif ?>
+
 <div class="container">
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
