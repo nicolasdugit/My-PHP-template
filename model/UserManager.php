@@ -40,6 +40,23 @@ class UserManager extends Manager
 		$result = $req->fetch();
 		return $result;
 	}
+
+	public function selectUserById($id)
+	{
+		$db = $this->dbConnect();
+		$req = $db->prepare('SELECT * FROM user WHERE id = :id');
+		$req->execute(array(
+			':id' => $id,
+		));
+		$result = $req->fetch();
+		return $result;
+	}
+
+	public function updateUserToken($id)
+	{
+		$db = $this->dbConnect();
+		$req = $db->prepare('UPDATE user SET confirmation_token = NULL, confirmation_date = NOW() WHERE id=?')->execute([$id]);
+	}	
 	
 	public function updateUser($id, $username, $email, $password)
 	{

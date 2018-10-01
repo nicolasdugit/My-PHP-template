@@ -26,8 +26,7 @@ function insertData($name, $location)
 	}
 	else
 	{
-		$_SESSION['message'] = 'Record has been saved!';
-		$_SESSION['msg_type'] = 'success';
+		$_SESSION['flash']['success'] = 'Record has been saved!';
 		header('location: index.php?page=data');
 	}
 }
@@ -44,8 +43,7 @@ function updateData($id, $name, $location)
 	}
 	else 
 	{
-		$_SESSION['message'] = 'Record has been updated!';
-		$_SESSION['msg_type'] = 'warning';
+		$_SESSION['flash']['warning'] = 'Record has been updated!';
 		header('location: index.php?page=data');
 	}
 }
@@ -62,8 +60,7 @@ function deleteData($id)
 	}
 	else
 	{
-		$_SESSION['message'] = 'Record has been deleted!';
-		$_SESSION['msg_type'] = 'danger';
+		$_SESSION['flash']['danger'] = 'Record has been deleted!';
 		header('location: index.php?page=data');
 	}
 }
@@ -80,8 +77,7 @@ function insertMail($name, $email, $subject, $content)
 	}
 	else
 	{
-		$_SESSION['message'] = 'Message has been sent!';
-		$_SESSION['msg_type'] = 'success';
+		$_SESSION['flash']['success'] = 'Message has been sent!';
 		header('location: index.php?page=contact');
 	}
 }
@@ -127,17 +123,34 @@ function insertUser($username, $email, $password)
 			// Send the message
 			$result = $mailer->send($message);
 
-			$_SESSION['message'] = 'User has been saved!' . $user_id; 
-			$_SESSION['msg_type'] = 'success';
+			$_SESSION['flash']['success'] = 'User has been saved!'; 
 			header('location: '.$_POST['pageName']);
 		}
+	}
+}
+
+function confirmUser($id, $token) 
+{
+	$userManager = new \MonNameSpace\Model\UserManager();
+	$user = $userManager->selectUserById($id);
+
+	if ($user && $user['confirmation_token'] == $token) 
+	{
+		$userManager->updateUserToken($id);
+		$_SESSION['flash']['success']= 'Your account has been validated!';
+		$_SESSION['auth'] = $user['username'];
+		header('location: index.php');
+	}
+	else
+	{
+		$_SESSION['flash']['warning']= 'This token is not valid anymore!';
+		header('location: index.php');
 	}
 }
 
 function selectUser($username, $password)
 {
 	$userManager = new \MonNameSpace\Model\UserManager();
-
 	$result = $userManager->selectUser($username);
 
 	$isPassCorrect = password_verify($password, $result['password']);
@@ -150,15 +163,13 @@ function selectUser($username, $password)
     {
 		if ($isPassCorrect) 
 		{
-			$_SESSION['message'] = 'login success!';
-			$_SESSION['msg_type'] = 'success';
-			$_SESSION['username'] = $result['username'];
+			$_SESSION['flash']['success']= 'login success!';
+			$_SESSION['auth'] = $result['username'];
 			header('location: '.$_POST['pageName']);
 		}
 		else 
 		{
-			$_SESSION['message'] = 'login danger!';
-			$_SESSION['msg_type'] = 'danger';
+			$_SESSION['flash']['danger'] = 'login danger!';
 			header('location: '.$_POST['pageName']);
 		}
 	}
@@ -166,7 +177,7 @@ function selectUser($username, $password)
 
 function logout()
 {
-    $_SESSION = array();
-    session_destroy();
+	session_start();
+    unset($_SESSION['auth']);
     header('Location: index.php');
 }

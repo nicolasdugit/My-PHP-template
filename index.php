@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE)
+{
+	session_start();
+}
 
 require 'controller/controller.php';
 
@@ -98,7 +101,7 @@ try {
 		{
 			if (isset($_GET['id']) && isset($_GET['token']))
 			{
-				
+				confirmUser($_GET['id'], $_GET['token']);
 			}
 		}
 		else 

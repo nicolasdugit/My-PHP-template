@@ -1,8 +1,8 @@
-<?php if (isset($_SESSION['message'])): ?>
-	<div id="alert_msg" class="alert alert-<?= $_SESSION['msg_type'] ?>">
-	<?php 
-		echo $_SESSION['message'];
-		unset($_SESSION['message']);
-	?>
+<?php if (isset($_SESSION['flash'])): ?>
+	<?php foreach ($_SESSION['flash'] as $type => $message) : ?>
+	<div id="alert_msg" class="alert alert-<?= $type ?>">
+	<?= $message; ?>
 	</div>
-<?php endif ?>
+<?php endforeach; ?>
+	<?php unset($_SESSION['flash']); ?>
+<?php endif; ?>

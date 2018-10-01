@@ -12,7 +12,7 @@
 			<li class="nav-item"><a class="nav-link" href="index.php?page=blog">Blog</a></li>
 		</ul>
 
-<?php if (isset($_SESSION['username'])): ?>
+<?php if (isset($_SESSION['auth'])): ?>
 		<a href="index.php?action=logout" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
 <?php else : ?>		
 		<button type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#modalConnexion">Login / Sign Up</button>
