@@ -28,4 +28,11 @@ $(document).ready(function(){
         var modal = $(this)
         modal.find('.modal-body #modalFormPageName2').val(url)
     })
+    $('#modalNewPassword').on('show.bs.modal', function (event) {
+        var url = window.location + '';
+        url = url.split('/');
+        url = url[url.length-1]
+        var modal = $(this)
+        modal.find('.modal-body #modalFormPageName3').val(url)
+    })
 });

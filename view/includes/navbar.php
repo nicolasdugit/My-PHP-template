@@ -13,6 +13,7 @@
 		</ul>
 
 <?php if (isset($_SESSION['auth'])): ?>
+		<a href="index.php?page=account" class="btn btn-outline-success my-2 my-sm-0">My Account</a>
 		<a href="index.php?action=logout" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
 <?php else : ?>		
 		<button type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#modalConnexion">Login / Sign Up</button>
@@ -31,12 +32,13 @@
 				<form action="index.php?action=login" method="POST">
 					<input id="modalFormPageName2" type="hidden" name="pageName" value="">
 					<div class="form-group">
-						<label for="username">Username</label>
+						<label for="username">Username / Email</label>
 						<input class="form-control fetched-data" type="text" name="username" placeholder="Enter your Username" value="">
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label>
-						<input class="form-control" type="password" name="password" placeholder="Enter your password" value="">
+						<input class="form-control" type="password" name="password" placeholder="Enter your password" aria-describedby="forgetPassword" value="">
+						<small id="forgetPassword" class="form-text text-muted"><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#modalNewPassword">(Cannot remember my password)</a></small>
 					</div>
 					<div class="form-group modal-footer">
 						<button class="btn btn-primary" type="submit" name="login">Login</button>
@@ -66,7 +68,8 @@
 					</div>
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input class="form-control" type="email" name="email" placeholder="Email address" value="" >
+						<input class="form-control" type="email" name="email" placeholder="Email address" aria-describedby="emailHelp" value="" >
+						<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label>
@@ -80,6 +83,27 @@
 						<button class="btn btn-primary" type="submit" name="signup">Sign Up</button>
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+ </div>
+
+<div class="modal fade" id="modalNewPassword">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Cannot remember my password</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action="index.php?action=rememberPassword" method="POST">
+					<input id="modalFormPageName3" type="hidden" name="pageName" value="">
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input class="form-control fetched-data" type="email" name="email" placeholder="Enter your Email" value="">
+					</div>
+					<button type="submit" class="btn btn-outline-success">Send New Password</button>
 				</form>
 			</div>
 		</div>

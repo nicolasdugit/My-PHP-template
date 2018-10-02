@@ -1,8 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-{
 	session_start();
-}
 
 require 'controller/controller.php';
 
@@ -48,6 +45,10 @@ try {
 		{
 			require 'view/pages/blog.php';
 		}
+		elseif ($_GET['page'] == 'account')
+		{
+			require 'view/pages/account.php';
+		}
 		else 
 		{
 			require 'view/homePage.php';
@@ -79,23 +80,19 @@ try {
 			}
 			if (empty($error_register)) 
 			{
-				insertUser($_POST['username'],$_POST['email'],$_POST['password']);
+				signup($_POST['username'],$_POST['email'],$_POST['password']);
 			}
 		}
 		elseif ($_GET['action'] == 'login')
 		{
-			if (isset($_POST['username']) && isset($_POST['password'])) 
+			if (!empty($_POST['username']) && !empty($_POST['password'])) 
 			{
-				selectUser($_POST['username'], $_POST['password']);
+				login($_POST['username'], $_POST['password']);
 			}
 			else 
 			{
 				throw new Exception("Something went wrong");
 			}
-		}
-		elseif ($_GET['action'] == 'logout')
-		{
-			logout();
 		}
 		elseif ($_GET['action'] == 'confirm') 
 		{
@@ -103,6 +100,59 @@ try {
 			{
 				confirmUser($_GET['id'], $_GET['token']);
 			}
+			else
+			{
+				throw new Exception("error");
+			}
+		}
+		elseif ($_GET['action'] == 'changePassword') 
+		{
+			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm'])
+			{
+				throw new Exception("Two password must be the same");
+			}
+			else
+			{
+				changePassword($_POST['password'], $_SESSION['auth']);
+			}
+		}
+		elseif ($_GET['action'] == 'rememberPassword') 
+		{
+			if (empty($_POST['email'])|| !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+			{
+				throw new Exception("Something went wrong We can\'t sent a new password");
+			}
+			else
+			{
+				rememberPassword($_POST['email']);
+			}
+		}
+		elseif ($_GET['action'] == 'reset') 
+		{
+			if (isset($_GET['id']) && isset($_GET['reset_token']))
+			{
+				// resetPassword($_GET['id'], $_GET['reset_token']);
+				require 'view/pages/reset.php';
+			}
+			else
+			{
+				throw new Exception("error");
+			}
+		}
+		elseif ($_GET['action'] == 'resetPassword') 
+		{
+			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm'])
+			{
+				throw new Exception("Two password must be the same");
+			}
+			else
+			{
+				resetPassword($_POST['id'], $_POST['token'], $_POST['password']);
+			}
+		}
+		elseif ($_GET['action'] == 'logout')
+		{
+			logout();
 		}
 		else 
 		{
