@@ -35,4 +35,12 @@ $(document).ready(function(){
         var modal = $(this)
         modal.find('.modal-body #modalFormPageName3').val(url)
     })
+
+    $('#logoutLink').attr("value", function(){
+        var url = window.location + '';
+        url = url.split('/');
+        url = url[url.length-1] +''
+        return url;
+    })
+    
 });

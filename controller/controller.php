@@ -170,7 +170,8 @@ function login($username, $password)
 
 	if ($user == false)
 	{
-		throw new Exception('Something went wrong. We can\'t log! Wrong username or password');
+		$_SESSION['flash']['warning']= 'This account doesn\'t exist!';
+		header('location: index.php');
 		exit();
 	}
 	else

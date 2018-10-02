@@ -91,7 +91,8 @@ try {
 			}
 			else 
 			{
-				throw new Exception("Something went wrong");
+				$_SESSION['flash']['warning']= 'This account doesn\'t exist!';
+				header('location: index.php');
 			}
 		}
 		elseif ($_GET['action'] == 'confirm') 
@@ -109,11 +110,12 @@ try {
 		{
 			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm'])
 			{
-				throw new Exception("Two password must be the same");
+				$_SESSION['flash']['warning']= 'The two password don\'t match!';
+				header('location: index.php?page=account');
 			}
 			else
 			{
-				changePassword($_POST['password'], $_SESSION['auth']);
+				changePassword($_POST['password'], $_SESSION['auth']['username']);
 			}
 		}
 		elseif ($_GET['action'] == 'rememberPassword') 

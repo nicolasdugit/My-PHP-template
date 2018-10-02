@@ -17,11 +17,19 @@
 			<div class="form-col col-md-6">
 				<div class="">
 					<label for="inputName"></label>
+<?php if (isset($_SESSION['auth'])): ?>
+					<input name="name" type="text" class="form-control" id="inputName" placeholder="Name"  value="<?= strtoupper(htmlspecialchars($_SESSION['auth']['username'])) ?>" required>
+<?php else: ?>
 					<input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
+<?php endif; ?>
 				</div>
 				<div class="">
 					<label for="inputEmail"></label>
+<?php if (isset($_SESSION['auth'])): ?>
+					<input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" value="<?= (htmlspecialchars($_SESSION['auth']['email'])) ?>" required>
+<?php else: ?>
 					<input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+<?php endif ?>
 				</div>
 				<div class="">
 					<label for="inputSubject"></label>
