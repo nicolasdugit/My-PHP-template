@@ -13,8 +13,8 @@
 		</ul>
 
 <?php if (isset($_SESSION['auth'])): ?>
-		<a href="index.php?page=account" class="btn btn-outline-success my-2 my-sm-0">My Account</a>
-		<a id="logoutLink" href="index.php?action=logout" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
+		<a href="index.php?page=account" class="btn btn-outline-success  my-2 my-sm-0">My Account</a>
+		<a id="logoutLink" href="index.php?action=logout" class="btn btn-outline-success ml-2 my-2 my-sm-0">Logout</a>
 <?php else : ?>		
 		<button type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#modalConnexion">Login / Sign Up</button>
 <?php endif; ?>
@@ -41,8 +41,8 @@
 						<small id="forgetPassword" class="form-text text-muted"><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#modalNewPassword">(Cannot remember my password)</a></small>
 					</div>
 					<div class="form-group modal-footer">
-						<button class="btn btn-primary" type="submit" name="login">Login</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button class="btn btn-primary w-100" type="submit" name="login">Login</button>
+						<!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
 					</div>
 					<div class="float-right">New Member ? <button type="button" class="btn btn-outline-success" data-dismiss="modal" data-toggle="modal" data-target="#modalInscription">Create an account</button></div>
 				</form>
@@ -80,8 +80,8 @@
 						<input class="form-control" type="password" name="password_confirm" placeholder="Confirm Password" value="" >
 					</div>
 					<div class="form-group modal-footer">
-						<button class="btn btn-primary" type="submit" name="signup">Sign Up</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button class="btn btn-primary w-100" type="submit" name="signup">Sign Up</button>
+						<!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
 					</div>
 				</form>
 			</div>
@@ -103,7 +103,7 @@
 						<label for="email">Email</label>
 						<input class="form-control fetched-data" type="email" name="email" placeholder="Enter your Email" value="">
 					</div>
-					<button type="submit" class="btn btn-outline-success">Send New Password</button>
+					<button type="submit" class="btn btn-outline-success w-100">Send New Password</button>
 				</form>
 			</div>
 		</div>
