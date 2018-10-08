@@ -45,6 +45,7 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
             <?php include 'view/includes/navbar.php'; ?>
+            <?php include 'view/includes/modalConnection.php'; ?>
             <?php include 'view/includes/alert.php'; ?>
             <?php include 'view/includes/header.php'; ?>
 
