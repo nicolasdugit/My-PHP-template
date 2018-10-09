@@ -1,14 +1,18 @@
 <?php 
-require_once 'model/DataManager.php';
+/*require_once 'model/DataManager.php';
 require_once 'model/MailManager.php';
 require_once 'model/UserManager.php';
-require_once 'model/function.php';
+require_once 'model/function.php';*/
+
+require_once 'model/autoload.php';
+\MonNameSpace\Autoloader::register(); 
 require_once 'vendor/autoload.php';
+
 
 
 function selectAllData()
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\DataManager();
 
 	$data = $dataManager->selectAllData();
 	require 'view/pages/data.php';
@@ -16,7 +20,7 @@ function selectAllData()
 
 function insertData($name, $location)
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\DataManager();
 
 	$result = $dataManager->insertData($name, $location);
 
@@ -35,7 +39,7 @@ function insertData($name, $location)
 
 function updateData($id, $name, $location)
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\DataManager();
 
 	$result = $dataManager->updateData($id, $name, $location);
 
@@ -54,7 +58,7 @@ function updateData($id, $name, $location)
 
 function deleteData($id)
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\DataManager();
 
 	$result = $dataManager->deleteData($id);
 	
@@ -73,7 +77,7 @@ function deleteData($id)
 
 function insertMail($name, $email, $subject, $content)
 {
-	$mailManager = new \MonNameSpace\Model\MailManager();
+	$mailManager = new \MonNameSpace\MailManager();
 
 	$result = $mailManager->insertMail($name, $email, $subject, $content);
 
@@ -92,7 +96,7 @@ function insertMail($name, $email, $subject, $content)
 
 function signup($username, $email, $password)
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
+	$userManager = new \MonNameSpace\UserManager();
 
 	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
 
@@ -142,7 +146,7 @@ function signup($username, $email, $password)
 
 function confirmUser($id, $token) 
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
+	$userManager = new \MonNameSpace\UserManager();
 	$user = $userManager->selectUserById($id);
 
 	if ($user && $user['confirmation_token'] == $token) 
@@ -163,7 +167,7 @@ function confirmUser($id, $token)
 
 function login($username, $password)
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
+	$userManager = new \MonNameSpace\UserManager();
 	$user = $userManager->selectUserByUsername($username);
 
 	$isPassCorrect = password_verify($password, $user['password']);
@@ -194,7 +198,7 @@ function login($username, $password)
 
 function changePassword($password, $username)
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
+	$userManager = new \MonNameSpace\UserManager();
 	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
 
 	$testupdate = $userManager->updatePassword($username, $pass_hash);
@@ -215,7 +219,7 @@ function changePassword($password, $username)
 
 function rememberPassword($email)
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
+	$userManager = new \MonNameSpace\UserManager();
 	$user = $userManager->selectUserByUsername($email);
 	if ($user) 
 	{
@@ -263,7 +267,7 @@ function rememberPassword($email)
 
 function resetPassword($id, $token, $password)
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
+	$userManager = new \MonNameSpace\UserManager();
 	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
 	$user = $userManager->selectUserByToken($id, $token);
 

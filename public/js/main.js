@@ -1,6 +1,8 @@
 $(document).ready(function(){
     //message alert 
-    $("#alert_msg").fadeOut(3000);
+    $('#alert_msg_close').on('click', function(){
+        $("#alert_msg").fadeOut(1000);
+    })
    //modal update data
     $('#modalEditName').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
