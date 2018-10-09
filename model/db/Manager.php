@@ -1,5 +1,5 @@
 <?php
-namespace MonNameSpace;
+namespace MonNameSpace\db;
 
 require_once 'db_config.php'; //db Confing File
 /**
