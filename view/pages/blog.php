@@ -3,8 +3,7 @@
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
 
-<?php ob_start(); ?>
-
+<?php  ob_start(); ?>
 <div class="container">
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
@@ -120,7 +119,7 @@
 	</div>
 	<!-- /.row -->
 </div>
-
-<?php $content = ob_get_clean(); ?>
-
-<?php require('view/templates/template.php'); ?>
+<?php 
+	$content = ob_get_clean();
+	require 'view/templates/default.php';
+?>

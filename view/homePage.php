@@ -3,7 +3,7 @@
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
 
-<?php ob_start(); ?>
+<?php  ob_start(); ?>
 
 <div class="container">
 	<nav class="nav nav-pills nav-fill shadow p-3 mb-5 bg-white rounded">
@@ -13,10 +13,10 @@
 		<a class="nav-item nav-link" href="index.php?page=forum">Forum</a>
 		<a class="nav-item nav-link" href="index.php?page=blog">Blog</a>
 	</nav>
-<hr>
-				
+	<hr>
 </div>
 
-<?php $content = ob_get_clean(); ?>
-
-<?php require('view/templates/template.php'); ?>
+<?php 
+	$content = ob_get_clean();
+	require 'view/templates/default.php';
+?>

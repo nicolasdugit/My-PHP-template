@@ -1,5 +1,5 @@
 <?php
-	session_start();
+session_start();
 
 require 'controller/controller.php';
 
@@ -165,7 +165,10 @@ try {
 	{
 		require 'view/homePage.php';
 	}
-} catch (Exception $e) {
+
+
+} catch (Exception $e) 
+{
 	$errorMessage = $e->getMessage();
 	require 'view/errorView.php';
 }

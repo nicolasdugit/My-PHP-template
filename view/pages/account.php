@@ -9,8 +9,7 @@
 	<?php exit(); ?>
 <?php endif; ?>
 
-<?php ob_start(); ?>
-
+<?php  ob_start(); ?>
 <div class="container">
 	<form action="index.php?action=changePassword" method="POST">
 		<div class="form-group">
@@ -25,7 +24,7 @@
 	</form>
 <hr>
 </div>
-
-<?php $content = ob_get_clean(); ?>
-
-<?php require('view/templates/template.php'); ?>
+<?php 
+	$content = ob_get_clean();
+	require 'view/templates/default.php';
+?>

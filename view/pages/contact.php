@@ -3,8 +3,7 @@
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
 
-<?php ob_start(); ?>
-
+<?php  ob_start(); ?>
 <div class="container">
 	<div role="navigation" aria-label="breadcrumb">
 		<ol class="breadcrumb">
@@ -66,6 +65,7 @@
 	crossorigin=""></script>
 <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js" ></script>
 <script type="text/javascript" src="public/js/map.js"></script>
-<?php $content = ob_get_clean(); ?>
-
-<?php require('view/templates/template.php'); ?>
+<?php 
+	$content = ob_get_clean();
+	require 'view/templates/default.php';
+?>
