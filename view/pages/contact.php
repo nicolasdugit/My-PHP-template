@@ -40,7 +40,7 @@
 					<label for="inputText"></label>
 					<textarea class="form-control" name="content" id="inputText" rows="4" placeholder="Message" required></textarea>
 				</div>
-				<button type="submit" name="sendMail" style="width: 100%;" class="btn btn-defailt">Send Message</button>
+				<button type="submit" name="sendMail" style="width: 100%;" class="btn btn-default">Send Message</button>
 			</div>
 		</div>
 	</form>

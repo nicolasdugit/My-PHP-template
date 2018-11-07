@@ -300,3 +300,55 @@ function logout()
     header('Location: index.php');
     exit();
 }
+
+function uploadProduct($image, $name, $weigth, $price, $description, $ingredients)
+{
+	$storeFolder = 'public/img/';
+	$tempFile = $image['tmp_name'];
+	$extension = pathinfo($image['name'], PATHINFO_EXTENSION);
+	$targetFile = $storeFolder.rand(100,1000000).'.'.$extension;
+ 
+	$productManager = new \MonNameSpace\db\ProductManager();
+	$result = $productManager->insertProduct($name, $weigth, $price, $description, $ingredients, $targetFile);
+
+	if ($result == false) 
+	{
+		throw new Exception('Something went wrong. We can\'t insert product!');
+		exit();
+	}
+	else
+	{		
+		move_uploaded_file($tempFile, $targetFile);
+
+		$_SESSION['flash']['success'] = 'Record has been saved!';
+		header('location: index.php?page=dragdrop');
+		exit();
+	}
+}
+
+function showProduct()
+{
+
+	$productManager = new \MonNameSpace\db\ProductManager();
+	$product = $productManager->selectAllProduct();
+	require 'view/pages/dragdrop.php';
+}
+
+function deleteProduct($id)
+{
+	$productManager = new \MonNameSpace\db\ProductManager();
+
+	$result = $productManager->deleteProduct($id);
+	
+	if ($result == false) 
+	{
+		throw new Exception('Something went wrong. We can\'t delete Product!');
+		exit();
+	}
+	else
+	{
+		$_SESSION['flash']['danger'] = 'Product has been deleted!';
+		header('location: index.php?page=dragdrop');
+		exit();
+	}
+}

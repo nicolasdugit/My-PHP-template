@@ -10,6 +10,9 @@
 			<li class="nav-item"><a class="nav-link" href="index.php?page=contact">Contact</a></li>
 			<li class="nav-item"><a class="nav-link" href="index.php?page=forum">Forum</a></li>
 			<li class="nav-item"><a class="nav-link" href="index.php?page=blog">Blog</a></li>
+<?php if (isset($_SESSION['auth'])): ?>
+			<li class="nav-item"><a class="nav-link" href="index.php?page=dragdrop">Drag & Drop</a></li>
+<?php endif; ?>
 		</ul>
 
 <?php if (isset($_SESSION['auth'])): ?>

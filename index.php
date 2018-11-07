@@ -37,6 +37,31 @@ try {
 				require 'view/pages/contact.php';
 			}
 		}
+		elseif ($_GET['page'] == 'dragdrop')
+		{
+			if (isset($_POST['sendProduct'])) 
+			{	
+				if (!empty($_FILES) && ($_FILES['image']['type'] === 'image/jpeg' OR $_FILES['image']['type'] === 'image/png' )) 
+				{
+					// debug($_FILES);
+					uploadProduct($_FILES['image'], $_POST['name'], $_POST['weight'], $_POST['price'], $_POST['description'], $_POST['ingredients']);
+				}
+				else
+				{
+					var_dump($_FILES);
+					throw new Exception("oups");
+				}
+			}
+			elseif (isset($_GET['delete'])) 
+			{	
+				$id = $_GET['delete'];
+				deleteProduct($id);
+			}
+			else 
+			{
+				showProduct();
+			}
+		}
 		elseif ($_GET['page'] == 'forum')
 		{
 			require 'view/pages/forum.php';

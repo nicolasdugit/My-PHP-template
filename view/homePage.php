@@ -12,6 +12,9 @@
 		<a class="nav-item nav-link" href="index.php?page=contact">Contact</a>
 		<a class="nav-item nav-link" href="index.php?page=forum">Forum</a>
 		<a class="nav-item nav-link" href="index.php?page=blog">Blog</a>
+<?php if (isset($_SESSION['auth'])): ?>
+		<a class="nav-item nav-link" href="index.php?page=dragdrop">FERME DE MONTAGUT</a>
+<?php endif; ?>
 	</nav>
 	<hr>
 </div>
