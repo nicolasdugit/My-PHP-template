@@ -1,12 +1,13 @@
 <?php 
-require_once 'model/DataManager.php';
-require_once 'model/MailManager.php';
-require_once 'model/UserManager.php';
+require_once 'model/autoload.php';
+require_once 'vendor/autoload.php';
+require_once 'model/function.php';
 
+\MonNameSpace\Autoloader::register();
 
 function selectAllData()
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\db\DataManager();
 
 	$data = $dataManager->selectAllData();
 	require 'view/pages/data.php';
@@ -14,126 +15,340 @@ function selectAllData()
 
 function insertData($name, $location)
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\db\DataManager();
 
 	$result = $dataManager->insertData($name, $location);
 
 	if ($result == false) 
 	{
-		throw new Exception('Impossible d\'inserer les data !');
+		throw new Exception('Something went wrong. We can\'t insert data!');
+		exit();
 	}
 	else
 	{
-		$_SESSION['message'] = 'Record has been saved!';
-		$_SESSION['msg_type'] = 'success';
+		$_SESSION['flash']['success'] = 'Record has been saved!';
 		header('location: index.php?page=data');
+		exit();
 	}
 }
 
 function updateData($id, $name, $location)
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\db\DataManager();
 
 	$result = $dataManager->updateData($id, $name, $location);
 
 	if ($result == false) 
 	{
-		throw new Exception('Impossible d\'updater les data !');
+		throw new Exception('Something went wrong. We can\'t update data!');
+		exit();
 	}
 	else 
 	{
-		$_SESSION['message'] = 'Record has been updated!';
-		$_SESSION['msg_type'] = 'warning';
+		$_SESSION['flash']['warning'] = 'Record has been updated!';
 		header('location: index.php?page=data');
+		exit();
 	}
 }
 
 function deleteData($id)
 {
-	$dataManager = new \MonNameSpace\Model\DataManager();
+	$dataManager = new \MonNameSpace\db\DataManager();
 
 	$result = $dataManager->deleteData($id);
 	
 	if ($result == false) 
 	{
-		throw new Exception('Impossible de supprimer les data !');
+		throw new Exception('Something went wrong. We can\'t delete data!');
+		exit();
 	}
 	else
 	{
-		$_SESSION['message'] = 'Record has been deleted!';
-		$_SESSION['msg_type'] = 'danger';
+		$_SESSION['flash']['danger'] = 'Record has been deleted!';
 		header('location: index.php?page=data');
+		exit();
 	}
 }
 
 function insertMail($name, $email, $subject, $content)
 {
-	$mailManager = new \MonNameSpace\Model\MailManager();
+	$mailManager = new \MonNameSpace\db\MailManager();
 
 	$result = $mailManager->insertMail($name, $email, $subject, $content);
 
 	if ($result == false) 
 	{
-		throw new Exception('Impossible d\'envoyer le mail !');
+		throw new Exception('Something went wrong. We can\'t send email!!');
+		exit();
 	}
 	else
 	{
-		$_SESSION['message'] = 'Message has been sent!';
-		$_SESSION['msg_type'] = 'success';
+		$_SESSION['flash']['success'] = 'Message has been sent!';
 		header('location: index.php?page=contact');
+		exit();
 	}
 }
 
-function insertUser($username, $email, $password)
+function signup($username, $email, $password)
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
-	$pass_hash = password_hash($password, PASSWORD_DEFAULT);
+	$userManager = new \MonNameSpace\db\UserManager();
 
-	$result = $userManager->insertUser($username, $email, $pass_hash, 2);
+	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
 
-	if ($result == false) 
+	$token = str_random(60);
+
+	$testUserUsername = $userManager->selectUser($username);
+	$testUserEmail = $userManager->selectUserByEmail($email);
+
+	if ($testUserUsername OR $testUserEmail)
 	{
-		throw new Exception('Impossible d\'ajouter nouvel utilisateur !');
+		throw new Exception('Something went wrong. This username or email exist already!');
+		exit();
+	}
+	else {
+		$user_id = $userManager->insertUser($username, $email, $pass_hash, 2, $token);
+
+		if ($user_id == false) 
+		{
+			throw new Exception('Something went wrong. We can\'t add new user!');
+			exit();
+		}
+		else
+		{
+			$link = "http://127.0.0.1/site/Lien%20vers%20Bibliotheque/My-template/index.php?action=confirm&id=$user_id&token=$token";
+			// Create the Transport
+			$transport = (new Swift_SmtpTransport('localhost', 1025))
+			  ->setUsername('')
+			  ->setPassword('')
+			;
+			// Create the Mailer using your created Transport
+			$mailer = new Swift_Mailer($transport);
+			// Create a message
+			$message = (new Swift_Message('Wonderful Subject'))
+			  ->setFrom(['john@doe.com' => 'John Doe'])
+			  ->setTo([$email => 'A name'])
+			  ->setBody("Here is the message itself: <br> <a href=$link> $link </a>")
+			  ;
+			// Send the message
+			$result = $mailer->send($message);
+
+			$_SESSION['flash']['success'] = 'User has been saved!'; 
+			header('location: '.$_POST['pageName']);
+			exit();
+		}
+	}
+}
+
+function confirmUser($id, $token) 
+{
+	$userManager = new \MonNameSpace\db\UserManager();
+	$user = $userManager->selectUserById($id);
+
+	if ($user && $user['confirmation_token'] == $token) 
+	{
+		$userManager->updateUserToken($id);
+		$_SESSION['flash']['success']= 'Your account has been validated!';
+		$_SESSION['auth'] = $user;
+		header('location: index.php');
+		exit();
 	}
 	else
 	{
-		$_SESSION['message'] = 'User has been saved!';
-		$_SESSION['msg_type'] = 'success';
-		header('location: '.$_POST['pageName']);
+		$_SESSION['flash']['warning']= 'This token is not valid anymore!';
+		header('location: index.php');
+		exit();
 	}
 }
 
-function selectUser($username, $password)
+function login($username, $password)
 {
-	$userManager = new \MonNameSpace\Model\UserManager();
+	$userManager = new \MonNameSpace\db\UserManager();
+	$user = $userManager->selectUserByUsername($username);
 
-	$result = $userManager->selectUser($username);
+	$isPassCorrect = password_verify($password, $user['password']);
 
-	$isPassCorrect = password_verify($password, $result['password']);
-
-	if ($result == false)
+	if ($user == false)
 	{
-		throw new Exception('Mauvais identifiant  ffou mot de passe');
+		$_SESSION['flash']['warning']= 'This account doesn\'t exist!';
+		header('location: index.php');
+		exit();
 	}
 	else
     {
-		if ($isPassCorrect) {
-				$_SESSION['message'] = 'login success!';
-				$_SESSION['msg_type'] = 'success';
-				header('Location: index.php');
+		if ($isPassCorrect) 
+		{
+			$_SESSION['flash']['success']= 'login success!';
+			$_SESSION['auth'] = $user;
+			header('location: '.$_POST['pageName']);
+			exit();
 		}
-		else {
-			$_SESSION['message'] = 'login danger!';
-				$_SESSION['msg_type'] = 'danger';
-				
-				header('Location: index.php');
+		else 
+		{
+			$_SESSION['flash']['danger'] = 'Wrong username or password!';
+			header('location: '.$_POST['pageName']);
+			exit();
 		}
+	}
+}
+
+function changePassword($password, $username)
+{
+	$userManager = new \MonNameSpace\db\UserManager();
+	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
+
+	$testupdate = $userManager->updatePassword($username, $pass_hash);
+
+	if ($testupdate) 
+	{
+		$_SESSION['flash']['success'] = 'Your password has been updated!';
+		header('location: index.php?page=account');
+		exit();
+	}
+	else
+	{
+		$_SESSION['flash']['danger'] = 'Your password cannot be updated!';
+		header('location: index.php?page=account');
+		exit();
+	}
+}
+
+function rememberPassword($email)
+{
+	$userManager = new \MonNameSpace\db\UserManager();
+	$user = $userManager->selectUserByUsername($email);
+	if ($user) 
+	{
+		$reset_token = str_random(60);
+		$id = $user['id'];
+		$test = $userManager->changePassword($id, $reset_token);
+
+		if ($test) 
+		{
+			$link = "http://127.0.0.1/site/Lien%20vers%20Bibliotheque/My-template/index.php?action=reset&id=$id&reset_token=$reset_token";
+			// Create the Transport
+			$transport = (new Swift_SmtpTransport('localhost', 1025))
+			  ->setUsername('')
+			  ->setPassword('')
+			;
+			// Create the Mailer using your created Transport
+			$mailer = new Swift_Mailer($transport);
+			// Create a message
+			$message = (new Swift_Message('Wonderful Subject'))
+			  ->setFrom(['john@doe.com' => 'John Doe'])
+			  ->setTo([$email => 'A name'])
+			  ->setBody("Here is the message itself: <br> <a href=$link> $link </a>")
+			  ;
+			// Send the message
+			$result = $mailer->send($message);
+
+			$_SESSION['flash']['success'] = 'New Password has been send!'; 
+			header('location: '.$_POST['pageName']);
+			exit();
+		}
+		else 
+		{
+			$_SESSION['flash']['danger'] = 'This user doesn\'t exist';
+			header('location: '.$_POST['pageName']);
+			exit();
+		}
+	}
+	else
+	{
+		$_SESSION['flash']['danger'] = 'This user doesn\'t exist';
+		header('location: '.$_POST['pageName']);
+		exit();
+	}
+}
+
+function resetPassword($id, $token, $password)
+{
+	$userManager = new \MonNameSpace\db\UserManager();
+	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
+	$user = $userManager->selectUserByToken($id, $token);
+
+	if ($user) 
+	{
+		$result = $userManager->resetPassword($id, $pass_hash); 
+		$user = $user;
+		if ($result) 
+		{
+			$_SESSION['auth'] = $user;
+			$_SESSION['flash']['success'] = 'Password has been changed';
+			header('Location: index.php');
+			exit();
+		}
+		else
+		{
+			$_SESSION['flash']['danger'] = 'This user doesn\'t exist';
+			header('Location: index.php');
+			exit();
+		}
+	}
+	else
+	{
+		$_SESSION['flash']['danger'] = 'This user doesn\'t exist';
+		header('Location: index.php');
+		exit();
 	}
 }
 
 function logout()
 {
-    $_SESSION = array();
-    session_destroy();
+	session_start();
+    unset($_SESSION['auth']);
+    $_SESSION['flash']['success']= 'You are now Logged out!';
     header('Location: index.php');
+    exit();
+}
+
+function uploadProduct($image, $name, $weigth, $price, $description, $ingredients)
+{
+	$storeFolder = 'public/img/';
+	$tempFile = $image['tmp_name'];
+	$extension = pathinfo($image['name'], PATHINFO_EXTENSION);
+	$targetFile = $storeFolder.rand(100,1000000).'.'.$extension;
+ 
+	$productManager = new \MonNameSpace\db\ProductManager();
+	$result = $productManager->insertProduct($name, $weigth, $price, $description, $ingredients, $targetFile);
+
+	if ($result == false) 
+	{
+		throw new Exception('Something went wrong. We can\'t insert product!');
+		exit();
+	}
+	else
+	{		
+		move_uploaded_file($tempFile, $targetFile);
+
+		$_SESSION['flash']['success'] = 'Record has been saved!';
+		header('location: index.php?page=dragdrop');
+		exit();
+	}
+}
+
+function showProduct()
+{
+
+	$productManager = new \MonNameSpace\db\ProductManager();
+	$product = $productManager->selectAllProduct();
+	require 'view/pages/dragdrop.php';
+}
+
+function deleteProduct($id)
+{
+	$productManager = new \MonNameSpace\db\ProductManager();
+
+	$result = $productManager->deleteProduct($id);
+	
+	if ($result == false) 
+	{
+		throw new Exception('Something went wrong. We can\'t delete Product!');
+		exit();
+	}
+	else
+	{
+		$_SESSION['flash']['danger'] = 'Product has been deleted!';
+		header('location: index.php?page=dragdrop');
+		exit();
+	}
 }

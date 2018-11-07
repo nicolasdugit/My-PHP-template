@@ -1,6 +1,8 @@
 $(document).ready(function(){
     //message alert 
-    $("#alert_msg").fadeOut(30000);
+    $('#alert_msg_close').on('click', function(){
+        $("#alert_msg").fadeOut(1000);
+    })
    //modal update data
     $('#modalEditName').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -19,9 +21,29 @@ $(document).ready(function(){
         url = url.split('/');
         url = url[url.length-1]
         var modal = $(this)
-        modal.find('.modal-body #modalFormPageName').val(url)
-    
+        modal.find('.modal-body #modalFormPageName1').val(url)
+    })
+    $('#modalConnexion').on('show.bs.modal', function (event) {
+        var url = window.location + '';
+        url = url.split('/');
+        url = url[url.length-1]
+        var modal = $(this)
+        modal.find('.modal-body #modalFormPageName2').val(url)
+    })
+    $('#modalNewPassword').on('show.bs.modal', function (event) {
+        var url = window.location + '';
+        url = url.split('/');
+        url = url[url.length-1]
+        var modal = $(this)
+        modal.find('.modal-body #modalFormPageName3').val(url)
     })
 
-
+    $('#logoutLink').attr("value", function(){
+        var url = window.location + '';
+        url = url.split('/');
+        url = url[url.length-1] +''
+        return url;
+    })
+    
 });
+

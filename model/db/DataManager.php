@@ -1,5 +1,5 @@
 <?php 
-namespace MonNameSpace\Model;
+namespace MonNameSpace\db;
 require_once("Manager.php");
 
 /**
@@ -15,6 +15,8 @@ class DataManager extends Manager
 	{
 		$db = $this->dbConnect();
 		$req = $db->query('SELECT * FROM data');
+		// $result = ($req->fetchAll(\PDO::FETCH_OBJ));
+		// debug($req);
 		return $req;
 	}
 	/**

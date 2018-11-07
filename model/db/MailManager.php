@@ -1,5 +1,5 @@
 <?php 
-namespace MonNameSpace\Model;
+namespace MonNameSpace\db;
 require_once("Manager.php");
 
 /**

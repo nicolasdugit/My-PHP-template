@@ -1,0 +1,5 @@
+var Form = {
+	initForm: function () {
+
+	}
+}
