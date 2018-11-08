@@ -1,11 +1,11 @@
 <?php
 // Data Base Config file
-if($_SERVER['SERVER_ADDR'] !="127.0.0.1"){
+if($_SERVER['SERVER_ADDR'] == "217.160.63.209"){
     // Production config DB
-    define('HOST','');
-    define('DB_USER', '');
-    define('DB_PASSWORD','');
-    define('DB_NAME','');
+    define('HOST','db760642750.hosting-data.io');
+    define('DB_USER', 'dbo760642750');
+    define('DB_PASSWORD','1qaz0p;/');
+    define('DB_NAME','db760642750');
     define('DB_DRIVER','mysql');
     define('CHARSET','utf8');
 }else {

@@ -4,7 +4,6 @@
 <?php $url = 'My awesome URL' ?>
 
 <?php  ob_start(); ?>
-
 <div class="container">
 	<nav class="nav nav-pills nav-fill shadow p-3 mb-5 bg-white rounded">
 		<a class="nav-item nav-link active" href="index.php">Home</a>
