@@ -133,7 +133,8 @@ function signup($username, $email, $password)
 			$result = $mailer->send($message);
 
 			$_SESSION['flash']['success'] = 'User has been saved!'; 
-			header('location: '.$_POST['pageName']);
+			// renvoie a la page actuelle
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
 		}
 	}
@@ -179,13 +180,15 @@ function login($username, $password)
 		{
 			$_SESSION['flash']['success']= 'login success!';
 			$_SESSION['auth'] = $user;
-			header('location: '.$_POST['pageName']);
+			// renvoie a la page actuelle
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
 		}
 		else 
 		{
 			$_SESSION['flash']['danger'] = 'Wrong username or password!';
-			header('location: '.$_POST['pageName']);
+			// renvoie a la page actuelle
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
 		}
 	}
@@ -242,20 +245,23 @@ function rememberPassword($email)
 			$result = $mailer->send($message);
 
 			$_SESSION['flash']['success'] = 'New Password has been send!'; 
-			header('location: '.$_POST['pageName']);
+			// renvoie a la page actuelle
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
 		}
 		else 
 		{
 			$_SESSION['flash']['danger'] = 'This user doesn\'t exist';
-			header('location: '.$_POST['pageName']);
+			// renvoie a la page actuelle
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
 		}
 	}
 	else
 	{
 		$_SESSION['flash']['danger'] = 'This user doesn\'t exist';
-		header('location: '.$_POST['pageName']);
+		// renvoie a la page actuelle
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit();
 	}
 }
