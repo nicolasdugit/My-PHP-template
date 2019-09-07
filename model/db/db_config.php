@@ -13,7 +13,7 @@ if($_SERVER['SERVER_ADDR'] == "217.160.63.209"){
     define('HOST', 'localhost');
     define('DB_USER', 'root');
     define('DB_PASSWORD', '');
-    define('DB_NAME', 'crud');
+    define('DB_NAME', 'mytemplate');
     define('DB_DRIVER', 'mysql');
     define('CHARSET', 'utf8');
 }
