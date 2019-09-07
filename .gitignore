@@ -1,5 +1,5 @@
 .idea/
-model/db_config.php
+model/db/db_config.php
 composer.json
 composer.lock
 vendor/
