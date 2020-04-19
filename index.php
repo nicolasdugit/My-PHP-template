@@ -1,33 +1,34 @@
+<?php  session_start() ; ?>
 <?php
 
 require 'controller/controller.php';
 
 try {
-	if (isset($_GET['page'])) 
+	if (isset($_GET['page']))
 	{
-		if ($_GET['page'] == 'data') 
+		if ($_GET['page'] == 'data')
 		{
 			if (isset($_POST['save']))
 			{
 				insertData($_POST['name'], $_POST['location']);
-			} 
-			elseif (isset($_POST['update'])) 
+			}
+			elseif (isset($_POST['update']))
 			{
 				updateData($_POST['id'], $_POST['name'], $_POST['location']);
 			}
-			elseif (isset($_GET['delete'])) 
-			{	
+			elseif (isset($_GET['delete']))
+			{
 				$id = $_GET['delete'];
 				deleteData($id);
 			}
-			else 
+			else
 			{
 				selectAllData();
 			}
 		}
 		elseif ($_GET['page'] == 'contact')
 		{
-			if (isset($_POST['sendMail'])) 
+			if (isset($_POST['sendMail']))
 			{
 				insertMail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['content']);
 			}
@@ -38,9 +39,9 @@ try {
 		}
 		elseif ($_GET['page'] == 'dragdrop')
 		{
-			if (isset($_POST['sendProduct'])) 
-			{	
-				if (!empty($_FILES) && ($_FILES['image']['type'] === 'image/jpeg' OR $_FILES['image']['type'] === 'image/png' )) 
+			if (isset($_POST['sendProduct']))
+			{
+				if (!empty($_FILES) && ($_FILES['image']['type'] === 'image/jpeg' OR $_FILES['image']['type'] === 'image/png' ))
 				{
 					// debug($_FILES);
 					uploadProduct($_FILES['image'], $_POST['name'], $_POST['weight'], $_POST['price'], $_POST['description'], $_POST['ingredients']);
@@ -51,12 +52,12 @@ try {
 					throw new Exception("oups");
 				}
 			}
-			elseif (isset($_GET['delete'])) 
-			{	
+			elseif (isset($_GET['delete']))
+			{
 				$id = $_GET['delete'];
 				deleteProduct($id);
 			}
-			else 
+			else
 			{
 				showProduct();
 			}
@@ -73,53 +74,53 @@ try {
 		{
 			require 'view/pages/account.php';
 		}
-		else 
+		else
 		{
 			require 'view/homePage.php';
 		}
 	}
-	elseif (isset($_GET['action'])) 
+	elseif (isset($_GET['action']))
 	{
 		if ($_GET['action'] == 'signup')
 		{
 			$error_register = array();
 
-			if (empty($_POST['username'])|| !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['username'])) 
+			if (empty($_POST['username'])|| !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['username']))
 			{
 				$error_register['username'] = "Pseudo non valide";
 				throw new Exception($error_register['username']);
-				
+
 			}
-			if (empty($_POST['email'])|| !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
+			if (empty($_POST['email'])|| !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 			{
 				$error_register['email'] = "Email non valide";
 				throw new Exception($error_register['email']);
-				
+
 			}
-			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm']) 
+			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm'])
 			{
 				$error_register['password'] = "Password non valide";
 				throw new Exception($error_register['password']);
-				
+
 			}
-			if (empty($error_register)) 
+			if (empty($error_register))
 			{
 				signup($_POST['username'],$_POST['email'],$_POST['password']);
 			}
 		}
 		elseif ($_GET['action'] == 'login')
 		{
-			if (!empty($_POST['username']) && !empty($_POST['password'])) 
+			if (!empty($_POST['username']) && !empty($_POST['password']))
 			{
 				login($_POST['username'], $_POST['password']);
 			}
-			else 
+			else
 			{
 				$_SESSION['flash']['warning']= 'This account doesn\'t exist!';
 				header('location: index.php');
 			}
 		}
-		elseif ($_GET['action'] == 'confirm') 
+		elseif ($_GET['action'] == 'confirm')
 		{
 			if (isset($_GET['id']) && isset($_GET['token']))
 			{
@@ -130,7 +131,7 @@ try {
 				throw new Exception("error");
 			}
 		}
-		elseif ($_GET['action'] == 'changePassword') 
+		elseif ($_GET['action'] == 'changePassword')
 		{
 			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm'])
 			{
@@ -142,7 +143,7 @@ try {
 				changePassword($_POST['password'], $_SESSION['auth']['username']);
 			}
 		}
-		elseif ($_GET['action'] == 'rememberPassword') 
+		elseif ($_GET['action'] == 'rememberPassword')
 		{
 			if (empty($_POST['email'])|| !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 			{
@@ -153,7 +154,7 @@ try {
 				rememberPassword($_POST['email']);
 			}
 		}
-		elseif ($_GET['action'] == 'reset') 
+		elseif ($_GET['action'] == 'reset')
 		{
 			if (isset($_GET['id']) && isset($_GET['reset_token']))
 			{
@@ -165,7 +166,7 @@ try {
 				throw new Exception("error");
 			}
 		}
-		elseif ($_GET['action'] == 'resetPassword') 
+		elseif ($_GET['action'] == 'resetPassword')
 		{
 			if (empty($_POST['password']) || $_POST['password'] != $_POST['password_confirm'])
 			{
@@ -180,7 +181,7 @@ try {
 		{
 			logout();
 		}
-		else 
+		else
 		{
 			require 'view/homePage.php';
 		}
@@ -191,7 +192,7 @@ try {
 	}
 
 
-} catch (Exception $e) 
+} catch (Exception $e)
 {
 	$errorMessage = $e->getMessage();
 	require 'view/errorView.php';

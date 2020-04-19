@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once 'model/autoload.php';
 require_once 'vendor/autoload.php';
 require_once 'model/function.php';
@@ -19,7 +19,7 @@ function insertData($name, $location)
 
 	$result = $dataManager->insertData($name, $location);
 
-	if ($result == false) 
+	if ($result == false)
 	{
 		throw new Exception('Something went wrong. We can\'t insert data!');
 		exit();
@@ -38,12 +38,12 @@ function updateData($id, $name, $location)
 
 	$result = $dataManager->updateData($id, $name, $location);
 
-	if ($result == false) 
+	if ($result == false)
 	{
 		throw new Exception('Something went wrong. We can\'t update data!');
 		exit();
 	}
-	else 
+	else
 	{
 		$_SESSION['flash']['warning'] = 'Record has been updated!';
 		header('location: index.php?page=data');
@@ -56,8 +56,8 @@ function deleteData($id)
 	$dataManager = new \MonNameSpace\db\DataManager();
 
 	$result = $dataManager->deleteData($id);
-	
-	if ($result == false) 
+
+	if ($result == false)
 	{
 		throw new Exception('Something went wrong. We can\'t delete data!');
 		exit();
@@ -76,7 +76,7 @@ function insertMail($name, $email, $subject, $content)
 
 	$result = $mailManager->insertMail($name, $email, $subject, $content);
 
-	if ($result == false) 
+	if ($result == false)
 	{
 		throw new Exception('Something went wrong. We can\'t send email!!');
 		exit();
@@ -108,7 +108,7 @@ function signup($username, $email, $password)
 	else {
 		$user_id = $userManager->insertUser($username, $email, $pass_hash, 2, $token);
 
-		if ($user_id == false) 
+		if ($user_id == false)
 		{
 			throw new Exception('Something went wrong. We can\'t add new user!');
 			exit();
@@ -132,7 +132,7 @@ function signup($username, $email, $password)
 			// Send the message
 			$result = $mailer->send($message);
 
-			$_SESSION['flash']['success'] = 'User has been saved!'; 
+			$_SESSION['flash']['success'] = 'User has been saved!';
 			// renvoie a la page actuelle
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
@@ -140,12 +140,12 @@ function signup($username, $email, $password)
 	}
 }
 
-function confirmUser($id, $token) 
+function confirmUser($id, $token)
 {
 	$userManager = new \MonNameSpace\db\UserManager();
 	$user = $userManager->selectUserById($id);
 
-	if ($user && $user['confirmation_token'] == $token) 
+	if ($user && $user['confirmation_token'] == $token)
 	{
 		$userManager->updateUserToken($id);
 		$_SESSION['flash']['success']= 'Your account has been validated!';
@@ -176,7 +176,7 @@ function login($username, $password)
 	}
 	else
     {
-		if ($isPassCorrect) 
+		if ($isPassCorrect)
 		{
 			$_SESSION['flash']['success']= 'login success!';
 			$_SESSION['auth'] = $user;
@@ -184,7 +184,7 @@ function login($username, $password)
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
 		}
-		else 
+		else
 		{
 			$_SESSION['flash']['danger'] = 'Wrong username or password!';
 			// renvoie a la page actuelle
@@ -201,7 +201,7 @@ function changePassword($password, $username)
 
 	$testupdate = $userManager->updatePassword($username, $pass_hash);
 
-	if ($testupdate) 
+	if ($testupdate)
 	{
 		$_SESSION['flash']['success'] = 'Your password has been updated!';
 		header('location: index.php?page=account');
@@ -219,13 +219,13 @@ function rememberPassword($email)
 {
 	$userManager = new \MonNameSpace\db\UserManager();
 	$user = $userManager->selectUserByUsername($email);
-	if ($user) 
+	if ($user)
 	{
 		$reset_token = str_random(60);
 		$id = $user['id'];
 		$test = $userManager->changePassword($id, $reset_token);
 
-		if ($test) 
+		if ($test)
 		{
 			$link = "http://127.0.0.1/site/Lien%20vers%20Bibliotheque/My-template/index.php?action=reset&id=$id&reset_token=$reset_token";
 			// Create the Transport
@@ -244,12 +244,12 @@ function rememberPassword($email)
 			// Send the message
 			$result = $mailer->send($message);
 
-			$_SESSION['flash']['success'] = 'New Password has been send!'; 
+			$_SESSION['flash']['success'] = 'New Password has been send!';
 			// renvoie a la page actuelle
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			exit();
 		}
-		else 
+		else
 		{
 			$_SESSION['flash']['danger'] = 'This user doesn\'t exist';
 			// renvoie a la page actuelle
@@ -272,11 +272,11 @@ function resetPassword($id, $token, $password)
 	$pass_hash = password_hash($password, PASSWORD_BCRYPT);
 	$user = $userManager->selectUserByToken($id, $token);
 
-	if ($user) 
+	if ($user)
 	{
-		$result = $userManager->resetPassword($id, $pass_hash); 
+		$result = $userManager->resetPassword($id, $pass_hash);
 		$user = $user;
-		if ($result) 
+		if ($result)
 		{
 			$_SESSION['auth'] = $user;
 			$_SESSION['flash']['success'] = 'Password has been changed';
@@ -313,17 +313,17 @@ function uploadProduct($image, $name, $weigth, $price, $description, $ingredient
 	$tempFile = $image['tmp_name'];
 	$extension = pathinfo($image['name'], PATHINFO_EXTENSION);
 	$targetFile = $storeFolder.rand(100,1000000).'.'.$extension;
- 
+
 	$productManager = new \MonNameSpace\db\ProductManager();
 	$result = $productManager->insertProduct($name, $weigth, $price, $description, $ingredients, $targetFile);
 
-	if ($result == false) 
+	if ($result == false)
 	{
 		throw new Exception('Something went wrong. We can\'t insert product!');
 		exit();
 	}
 	else
-	{		
+	{
 		move_uploaded_file($tempFile, $targetFile);
 
 		$_SESSION['flash']['success'] = 'Record has been saved!';
@@ -345,8 +345,8 @@ function deleteProduct($id)
 	$productManager = new \MonNameSpace\db\ProductManager();
 
 	$result = $productManager->deleteProduct($id);
-	
-	if ($result == false) 
+
+	if ($result == false)
 	{
 		throw new Exception('Something went wrong. We can\'t delete Product!');
 		exit();

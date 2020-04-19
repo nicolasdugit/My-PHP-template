@@ -2,7 +2,7 @@
 <?php $description = 'My awesome description' ?>
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
-	
+
 <?php  ob_start(); ?>
 <div class="container">
 	<nav aria-label="breadcrumb">
@@ -43,7 +43,7 @@
 				</tbody>
 			</table>
 		</div>
-  			
+
 		<div class="modal fade" id="modalNewName">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -53,7 +53,8 @@
 					</div>
 					<div class="modal-body">
 						<form action="index.php?page=data" method="POST">
-							<input type="hidden" name="id" value="<?= $id; ?>">
+							<!-- probleme -->
+							<!-- <input type="hidden" name="id" value="<?= $id; ?>"> -->
 							<div class="form-group">
 								<label for="name">Name</label>
 								<input class="form-control fetched-data" type="text" name="name" placeholder="Enter your name" value="">
@@ -100,7 +101,7 @@
 			</div>
 	  	</div>
   	</div>
-<?php 
-	$content = ob_get_clean();
-	require 'view/templates/default.php';
+<?php
+    $content = ob_get_clean();
+    require 'view/templates/default.php';
 ?>
