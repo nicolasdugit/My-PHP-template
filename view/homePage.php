@@ -6,19 +6,16 @@
 <?php  ob_start(); ?>
 <div class="container">
 	<nav class="nav nav-pills nav-fill shadow p-3 mb-5 bg-white rounded">
-		<a class="nav-item nav-link active" href="index.php">Home</a>
-		<a class="nav-item nav-link" href="index.php?page=data">Data</a>
-		<a class="nav-item nav-link" href="index.php?page=contact">Contact</a>
-		<a class="nav-item nav-link" href="index.php?page=forum">Forum</a>
-		<a class="nav-item nav-link" href="index.php?page=blog">Blog</a>
-<?php if (isset($_SESSION['auth'])): ?>
-		<a class="nav-item nav-link" href="index.php?page=dragdrop">FERME DE MONTAGUT</a>
-<?php endif; ?>
+		<a class="nav-item nav-link active bg-success" href="index.php">Home</a>
+		<a class="nav-item nav-link text-secondary" href="index.php?page=data">Data</a>
+		<a class="nav-item nav-link text-secondary" href="index.php?page=contact">Contact</a>
+		<a class="nav-item nav-link text-secondary" href="index.php?page=forum">Forum</a>
+		<a class="nav-item nav-link text-secondary" href="index.php?page=blog">Blog</a>
 	</nav>
 	<hr>
 </div>
 
-<?php 
+<?php
 	$content = ob_get_clean();
 	require 'view/templates/default.php';
 ?>
