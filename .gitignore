@@ -3,3 +3,4 @@ model/db/db_config.php
 composer.json
 composer.lock
 vendor/
+public/img/
