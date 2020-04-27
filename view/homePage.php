@@ -9,11 +9,12 @@
 
 	<div class="col-3 m-0 pt-2 pl-3 shadow">
 		<h5>Projects</h5>
+
 	<ul class="list-inline">
-	  <li> <a href="http://www.poissonnerieduport.fr">poissonnerieduport.fr</a></li>
-	  <li> <a href="https://www.interactions-laos.fr">interactions-laos</a> </li>
-	  <li> <a href="https://www.osteo-kine-sport.fr">osteo-kine-sport</a> </li>
-		<li> <a href="http://www.upstairslab.co">upstairslab</a> </li>
+	  <li><i class="far fa-folder"></i> <a href="http://www.nicolasduquesne.com">Curabitur metus nisl</a></li>
+	  <li><i class="far fa-folder"></i> <a href="http://www.nicolasduquesne.com">Nulla eget laoreet quam</a> </li>
+	  <li><i class="far fa-folder"></i> <a href="http://www.nicolasduquesne.com">Aenean turpis mi</a> </li>
+		<li><i class="far fa-folder"></i> <a href="http://www.nicolasduquesne.com">Etiam pellentesque facilisis</a> </li>
 	</ul>
 	</div>
 <div class="col-6">
@@ -54,6 +55,12 @@
 </div>
 	<div class="col-3 pr-3 pt-2	 bg-white ">
 		<h5>What's new</h5>
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 		<div class="alert alert-info" role="alert">
 		  <strong>Heads up!</strong> This <a href="#" class="alert-link">alert needs your attention</a>, but it's not super important.
 		</div>

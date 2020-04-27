@@ -2,15 +2,11 @@
 <?php $description = 'My awesome description' ?>
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
+<?php $page_name = 'Blog' ?>
 
 <?php  ob_start(); ?>
 <div class="container">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="index.php">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Blog</li>
-		</ol>
-	</nav>
+	<?php include 'view/includes/breadcrumb.php'; ?>
     <!-- Page Content -->
 	<div class="row">
 	<!-- Blog Entries Column -->
@@ -119,7 +115,7 @@
 	</div>
 	<!-- /.row -->
 </div>
-<?php 
+<?php
 	$content = ob_get_clean();
 	require 'view/templates/default.php';
 ?>
