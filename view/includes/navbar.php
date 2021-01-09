@@ -1,5 +1,10 @@
+<!-- Top navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+	<div class="mr-2">
+		<img src="favicon.ico" alt="icon">
+	</div>
 	<a class="navbar-brand" href="index.php">PHP Template</a>
+	<!-- menu hamburger -->
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -14,11 +19,10 @@
 			<li class="nav-item"><a class="nav-link" href="index.php?page=dragdrop">Drag & Drop</a></li>
 <?php endif; ?>
 		</ul>
-
 <?php if (isset($_SESSION['auth'])): ?>
-		<a href="index.php?page=account" class="btn btn-outline-success  my-2 my-sm-0">My Account</a>
+		<a href="index.php?page=account" class="btn btn-outline-success ml-2 my-2 my-sm-0"><?= ucfirst(htmlspecialchars($_SESSION['auth']['username'])) ?></a>
 		<a id="logoutLink" href="index.php?action=logout" class="btn btn-outline-success ml-2 my-2 my-sm-0">Logout</a>
-<?php else : ?>		
+<?php else : ?>
 		<button type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#modalConnexion">Login / Sign Up</button>
 <?php endif; ?>
 	</div>

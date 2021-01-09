@@ -115,7 +115,7 @@ function signup($username, $email, $password)
 		}
 		else
 		{
-			$link = "http://127.0.0.1/site/Lien%20vers%20Bibliotheque/My-template/index.php?action=confirm&id=$user_id&token=$token";
+			$link = "http://localhost/My-PHP-template/index.php?action=confirm&id=$user_id&token=$token";
 			// Create the Transport
 			$transport = (new Swift_SmtpTransport('localhost', 1025))
 			  ->setUsername('')
@@ -227,7 +227,7 @@ function rememberPassword($email)
 
 		if ($test)
 		{
-			$link = "http://127.0.0.1/site/Lien%20vers%20Bibliotheque/My-template/index.php?action=reset&id=$id&reset_token=$reset_token";
+			$link = "http://localhost/My-PHP-template/index.php?action=reset&id=$id&reset_token=$reset_token";
 			// Create the Transport
 			$transport = (new Swift_SmtpTransport('localhost', 1025))
 			  ->setUsername('')

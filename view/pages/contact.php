@@ -2,15 +2,11 @@
 <?php $description = 'My awesome description' ?>
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
+<?php $page_name = 'Contact' ?>
 
 <?php  ob_start(); ?>
 <div class="container">
-	<div role="navigation" aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="index.php">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Contact</li>
-		</ol>
-	</div>
+	<?php include 'view/includes/breadcrumb.php'; ?>
 	<form action="index.php?page=contact" method="POST">
 		<div class="row">
 			<div class="form-col col-md-6">
@@ -50,7 +46,7 @@
 		<div class=" col-md-6">
 			<h3>Stop By For A Visit</h3>
 			<address>
-				
+
 			</address>
 		</div>
 		<div class="col-md-6">
@@ -65,7 +61,7 @@
 	crossorigin=""></script>
 <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js" ></script>
 <script type="text/javascript" src="public/js/map.js"></script>
-<?php 
+<?php
 	$content = ob_get_clean();
 	require 'view/templates/default.php';
 ?>

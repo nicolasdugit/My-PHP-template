@@ -2,6 +2,7 @@
 <?php $description = 'My awesome description' ?>
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
+<?php $page_name = 'Drag & Drop' ?>
 
 <?php if (!isset($_SESSION['auth'])): ?>
 	<?php  $_SESSION['flash']['danger'] = 'Access Forbidden'; ?>
@@ -11,12 +12,7 @@
 
 <?php  ob_start(); ?>
 <div class="container">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="index.php">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Drag & Drop</li>
-		</ol>
-	</nav>
+	<?php include 'view/includes/breadcrumb.php'; ?>
     <!-- Page Content -->
     <form action="index.php?page=dragdrop" enctype="multipart/form-data" method="POST">
 		<div class="row">
@@ -68,7 +64,7 @@
 	</div>
 </div>
 <script type="text/javascript" src="public/js/dropzone.js"></script>
-<?php 
+<?php
 	$content = ob_get_clean();
 	require 'view/templates/default.php';
 ?>

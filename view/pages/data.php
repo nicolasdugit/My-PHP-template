@@ -2,15 +2,11 @@
 <?php $description = 'My awesome description' ?>
 <?php $keywords = 'My awesomes Keywords' ?>
 <?php $url = 'My awesome URL' ?>
+<?php $page_name = 'Data' ?>
 
 <?php  ob_start(); ?>
 <div class="container">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="index.php">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Data</li>
-		</ol>
-	</nav>
+	<?php include 'view/includes/breadcrumb.php'; ?>
 	<div class="row">
 			<div class="col-md-8 offset-md-2" >
 				<h2>Formulaire CRUD</h2>

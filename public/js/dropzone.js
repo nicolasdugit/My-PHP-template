@@ -3530,7 +3530,7 @@ function __guardMethod__(obj, methodName, transform) {
 
 
 Dropzone.options.dropzoneProduct = {
-    url: 'index.php?page=dragdrop'
+    url: 'index.php?page=dragdrop',
     autoProcessQueue: false,
     acceptedFiles: ".png,.jpg,.jepg,.bmp,.gif",
     init: function(){
